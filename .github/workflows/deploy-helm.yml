@@ -24,12 +24,11 @@ jobs:
       # 3 Build microservices
       - name: Build Microservices
         run: |
-          cd config-service && ./mvnw clean package -DskipTests && cd ..
-          cd discovery-service && ./mvnw clean package -DskipTests && cd ..
-          cd gateway-service && ./mvnw clean package -DskipTests && cd ..
-          cd catalogue-service && ./mvnw clean package -DskipTests && cd ..
-          cd commande-service && ./mvnw clean package -DskipTests && cd ..
-          cd paiement-service && ./mvnw clean package -DskipTests && cd ..
+          for service in config-service discovery-service gateway-service catalogue-service commande-service paiement-service; do
+            echo "Building $service..."
+            chmod +x $service/mvnw
+            cd $service && ./mvnw clean package -DskipTests && cd ..
+          done
 
       # 4 Build Docker images
       - name: Build Docker Images
